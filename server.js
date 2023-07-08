@@ -3,7 +3,9 @@ const cors = require("cors");
 const dbConfig = require("./app/config/db.config");
 
 const app = express();
-
+if (process.env.NODE_ENV !== "production") {
+  require("dotenv").config();
+}
 var corsOptions = {
   origin: "http://localhost:8081"
 };
@@ -20,7 +22,7 @@ const db = require("./app/models");
 const Role = db.role;
 
 db.mongoose
-  .connect(`mongodb://${dbConfig.HOST}:${dbConfig.PORT}/${dbConfig.DB}`, {
+  .connect(process.env.MONGODB_URI ||`mongodb://${dbConfig.HOST}:${dbConfig.PORT}/${dbConfig.DB}`, {
     useNewUrlParser: true,
     useUnifiedTopology: true
   })
@@ -32,6 +34,7 @@ db.mongoose
     console.error("Connection error", err);
     process.exit();
   });
+
 
 // simple route
 app.get("/", (req, res) => {
