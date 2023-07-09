@@ -86,9 +86,9 @@ isModerator = (req, res, next) => {
   });
 };
 
-const authJwt = {
+
+module.exports = {
   verifyToken,
   isAdmin,
   isModerator
 };
-module.exports = authJwt;
