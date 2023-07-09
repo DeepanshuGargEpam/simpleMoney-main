@@ -18,6 +18,14 @@ app.use(express.json());
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(express.urlencoded({ extended: true }));
 
+app.use(function(request, response, next){
+  response.header("Access-Control-Allow-Origin", "*");
+  response.header('Access-Control-Allow-Credentials', true);
+  response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, authorization, accessToken, uuId, utz,platform,osVersion,deviceModel,appVersion ");
+  response.setHeader('Access-Control-Allow-Methods', 'POST, GET, PUT, DELETE, OPTIONS');
+  next();
+});
+
 const db = require("./app/models");
 const Role = db.role;
 
@@ -43,7 +51,7 @@ app.get("/", (req, res) => {
 
 // routes
 require("./app/routes/authRoutes")(app);
-// require("./app/routes/useroutes")(app);
+require("./app/routes/transactionRoutes")(app);
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;

@@ -19,7 +19,12 @@ verifyToken = (req, res, next) => {
                   message: "Unauthorized!",
                 });
               }
-              req.userId = decoded.id;
+              if(req.body.userId){
+              req.body.userId = decoded.id
+              }
+              else{
+                req.params.userId=decoded.id
+              }
               next();
             });
 };
